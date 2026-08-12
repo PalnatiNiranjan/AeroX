@@ -1,0 +1,102 @@
+<svg viewBox="0 0 1400 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AERO-SENSE aircraft">
+  <defs>
+    <linearGradient id="fuselageGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a1c21" />
+      <stop offset="55%" stop-color="#000d10" />
+      <stop offset="100%" stop-color="#000608" />
+    </linearGradient>
+    <radialGradient id="shadowGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000d10" stop-opacity="0.16" />
+      <stop offset="100%" stop-color="#000d10" stop-opacity="0" />
+    </radialGradient>
+    <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" />
+    </filter>
+  </defs>
+
+  <!-- ground shadow -->
+  <ellipse cx="700" cy="460" rx="520" ry="26" fill="url(#shadowGradient)" filter="url(#softBlur)" />
+
+  <!-- contrail -->
+  <g stroke="#000d10" stroke-linecap="round">
+    <line x1="-140" y1="238" x2="65" y2="238" stroke-width="3" stroke-opacity="0.10" />
+    <line x1="-100" y1="252" x2="65" y2="252" stroke-width="4" stroke-opacity="0.16" />
+    <line x1="-60" y1="266" x2="65" y2="266" stroke-width="3" stroke-opacity="0.10" />
+  </g>
+
+  <!-- horizontal stabilizer -->
+  <path d="M126,262 L44,306 C36,310 40,316 52,314 L158,282 Z" fill="#000d10" />
+
+  <!-- vertical tail fin -->
+  <path d="M172,214 C176,150 196,92 222,54 C244,50 264,62 270,86 C258,128 246,172 258,216 Z" fill="url(#fuselageGradient)" />
+
+  <!-- main wing -->
+  <path d="M560,286 L372,432 C360,441 366,449 392,445 L636,326 L706,288 Z" fill="url(#fuselageGradient)" />
+  <path d="M420,404 C424,392 436,384 452,382 L560,320 L540,340 C500,362 458,384 420,404 Z" fill="#000d10" fill-opacity="0.35" />
+
+  <!-- engine pod -->
+  <g>
+    <ellipse cx="474" cy="392" rx="66" ry="21" fill="#000d10" />
+    <ellipse cx="416" cy="392" rx="10" ry="18" fill="#0a1c21" />
+  </g>
+
+  <!-- fuselage + nose -->
+  <path
+    d="M84,252
+       C84,228 122,208 202,201
+       L852,190
+       C962,187 1058,195 1148,213
+       C1214,226 1262,236 1298,248
+       C1262,259 1210,270 1148,283
+       L202,301
+       C122,294 84,274 84,252 Z"
+    fill="url(#fuselageGradient)"
+  />
+
+  <!-- top specular highlight -->
+  <path
+    d="M210,203 L850,192 C955,189 1048,196 1134,213"
+    fill="none"
+    stroke="#ffffff"
+    stroke-opacity="0.16"
+    stroke-width="2.5"
+    stroke-linecap="round"
+  />
+
+  <!-- nose cone taper -->
+  <path d="M1148,213 C1214,226 1262,236 1298,248 C1262,259 1210,270 1148,283 Z" fill="#000608" />
+
+  <!-- cockpit window -->
+  <ellipse cx="1168" cy="230" rx="26" ry="15" fill="#e7edf1" fill-opacity="0.55" />
+
+  <!-- cabin windows -->
+  <g fill="#e7edf1" fill-opacity="0.5">
+    <ellipse cx="300" cy="238" rx="13" ry="7" />
+    <ellipse cx="345" cy="235" rx="13" ry="7" />
+    <ellipse cx="390" cy="233" rx="13" ry="7" />
+    <ellipse cx="435" cy="231" rx="13" ry="7" />
+    <ellipse cx="480" cy="229" rx="13" ry="7" />
+    <ellipse cx="525" cy="227" rx="13" ry="7" />
+    <ellipse cx="570" cy="226" rx="13" ry="7" />
+    <ellipse cx="615" cy="225" rx="13" ry="7" />
+    <ellipse cx="660" cy="224" rx="13" ry="7" />
+    <ellipse cx="705" cy="223" rx="13" ry="7" />
+    <ellipse cx="750" cy="222" rx="13" ry="7" />
+    <ellipse cx="795" cy="221" rx="13" ry="7" />
+    <ellipse cx="840" cy="221" rx="13" ry="7" />
+    <ellipse cx="885" cy="221" rx="13" ry="7" />
+    <ellipse cx="930" cy="221" rx="13" ry="7" />
+    <ellipse cx="975" cy="222" rx="13" ry="7" />
+    <ellipse cx="1020" cy="223" rx="13" ry="7" />
+    <ellipse cx="1065" cy="225" rx="13" ry="7" />
+  </g>
+
+  <!-- belly line -->
+  <path
+    d="M210,296 L1140,280"
+    fill="none"
+    stroke="#000608"
+    stroke-opacity="0.5"
+    stroke-width="1.5"
+  />
+</svg>

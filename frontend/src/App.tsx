@@ -1,0 +1,113 @@
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { Layout } from './components/Layout';
+import { LandingPage } from './pages/LandingPage';
+import { LoginPage } from './pages/LoginPage';
+import { DashboardPage } from './pages/DashboardPage';
+import { AircraftPage } from './pages/AircraftPage';
+import { AircraftDetailPage } from './pages/AircraftDetailPage';
+import { ComponentsPage } from './pages/ComponentsPage';
+import { ComponentDetailPage } from './pages/ComponentDetailPage';
+import { RegisterComponentPage } from './pages/RegisterComponentPage';
+import { RegisterTagPage } from './pages/RegisterTagPage';
+import { VerifyPage } from './pages/VerifyPage';
+import { MaintenancePage } from './pages/MaintenancePage';
+import { SecurityPage } from './pages/SecurityPage';
+import { ProfilePage } from './pages/ProfilePage';
+import { UsersPage } from './pages/UsersPage';
+import { CompaniesPage } from './pages/CompaniesPage';
+import { AnalyticsPage } from './pages/AnalyticsPage';
+
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#090d16] flex items-center justify-center text-slate-400 text-sm">
+        Authenticating session...
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+// The Super Admin has no company, so the operational dashboard (which reads
+// aircraft/component data) isn't reachable for it — send it to company
+// management instead. Everyone else lands on the normal dashboard.
+const roleDestination = (role?: string) => (role === 'SUPER_ADMIN' ? '/companies' : '/dashboard');
+
+// Root ("/") gate: unauthenticated visitors see the public AERO-SENSE landing
+// page; authenticated users are sent into the app exactly as before. This is
+// the only behavior change at "/" — every other protected route still goes
+// through ProtectedRoute unchanged below.
+const RootRoute: React.FC = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#090d16] flex items-center justify-center text-slate-400 text-sm">
+        Authenticating session...
+      </div>
+    );
+  }
+
+  if (user) {
+    return <Navigate to={roleDestination(user.role)} replace />;
+  }
+
+  return <LandingPage />;
+};
+
+export const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<RootRoute />} />
+          <Route path="/login" element={<LoginPage />} />
+
+          <Route
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/verify" element={<VerifyPage />} />
+            <Route path="/aircraft" element={<AircraftPage />} />
+            <Route path="/aircraft/:id" element={<AircraftDetailPage />} />
+            <Route path="/components" element={<ComponentsPage />} />
+            <Route path="/components/:id" element={<ComponentDetailPage />} />
+            <Route path="/components/register" element={<RegisterComponentPage />} />
+            <Route path="/nfc/register" element={<RegisterTagPage />} />
+            <Route path="/maintenance" element={<MaintenancePage />} />
+            <Route path="/security" element={<SecurityPage />} />
+            <Route path="/users" element={<UsersPage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/companies" element={<CompaniesPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
+
+          <Route path="*" element={<RoleAwareIndexRedirectFallback />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
+};
+
+// Same role-aware redirect, usable outside the protected layout tree for the
+// catch-all route (unauthenticated users still fall through to /login via
+// ProtectedRoute once they hit /dashboard or /companies).
+const RoleAwareIndexRedirectFallback: React.FC = () => {
+  const { user } = useAuth();
+  return <Navigate to={user ? roleDestination(user.role) : '/login'} replace />;
+};
+
+export default App;
