@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+/*
+  AERO-SENSE public design system (landing + login only).
+  Kept separate from the dashboard's sky/indigo glass theme below —
+  the authenticated app is untouched and keeps its own tokens.
+*/
+@theme {
+  --color-ink: #000d10;
+  --color-ash: #8e8e95;
+  --color-pebble: #d5d3d4;
+  --color-slate: #0f0f1c;
+  --color-slate-elevated: #151623;
+  --color-clay: #bc7155;
+
+  /* Atmospheric-only tokens for the hero's pale-sky background. Not brand
+     accents — never used on text, buttons, or UI elements. */
+  --color-sky: #e6edf1;
+  --color-cream: #faf9f7;
+
+  --font-display: 'Clash Display', 'General Sans', system-ui, sans-serif;
+  --font-body: 'General Sans', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  :root {
+    --bg-dark: #0b101d;
+    --card-bg: #121929;
+    --border-color: #1e293b;
+    --accent-blue: #38bdf8;
+    --accent-indigo: #6366f1;
+    --status-authentic: #10b981;
+    --status-suspicious: #ef4444;
+    --status-warning: #f59e0b;
+  }
+
+  body {
+    background-color: #090d16;
+    color: #f8fafc;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+  }
+}
+
+/* ---- AERO-SENSE public-page utilities ---- */
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* 1000px-radius pill button, per the reference. No shadow/elevation states. */
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 1000px;
+  padding: 0.85rem 1.75rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.pill-btn-primary {
+  background: var(--color-ink);
+  color: #ffffff;
+}
+.pill-btn-primary:hover {
+  background: #001a20;
+}
+
+.pill-btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border: 1px solid var(--color-pebble);
+}
+.pill-btn-ghost:hover {
+  border-color: var(--color-ink);
+}
+
+.pill-btn-on-dark {
+  background: #ffffff;
+  color: var(--color-ink);
+}
+.pill-btn-on-dark:hover {
+  background: var(--color-pebble);
+}
+
+.pill-btn-ghost-on-dark {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.pill-btn-ghost-on-dark:hover {
+  border-color: #ffffff;
+}
+
+/* Hard-edged hairline cards — explicitly no shadow, no radius beyond a hairline. */
+.hairline {
+  border: 1px solid var(--color-pebble);
+}
+.hairline-on-dark {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Hero atmosphere: pale blue sky settling into white/cream — background only,
+   the "sky" and "cream" tokens above never appear anywhere else. */
+.aero-hero-sky {
+  background: linear-gradient(
+    180deg,
+    #abc0d5 0%,
+    #bfd1e0 15%,
+    #cedce6 30%,
+    #e2e9ec 50%,
+    var(--color-cream) 72%,
+    #ffffff 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom glassmorphism & glow effects */
+.glass-panel {
+  background: rgba(18, 25, 41, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(20, 29, 47, 0.9) 0%, rgba(15, 23, 38, 0.7) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.glow-blue {
+  box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.3);
+}
+
+.glow-green {
+  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3);
+}
+
+.glow-red {
+  box-shadow: 0 0 25px -5px rgba(239, 68, 68, 0.3);
+}
+
+.counter {
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+  margin-bottom: 24px;
+}
+.counter:hover {
+  border-color: var(--accent-border);
+}
+.counter:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.hero {
+  position: relative;
+}
+.hero .base,
+.hero .framework,
+.hero .vite {
+  inset-inline: 0;
+  margin: 0 auto;
+}
+.hero .base {
+  width: 170px;
+  position: relative;
+  z-index: 0;
+}
+.hero .framework,
+.hero .vite {
+  position: absolute;
+}
+.hero .framework {
+  z-index: 1;
+  top: 34px;
+  height: 28px;
+  transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg) scale(1.4);
+}
+.hero .vite {
+  z-index: 0;
+  top: 107px;
+  height: 26px;
+  width: auto;
+  transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg) scale(0.8);
+}
+
+#center {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  place-content: center;
+  place-items: center;
+  flex-grow: 1;
+}
+
+#next-steps {
+  display: flex;
+  border-top: 1px solid var(--border);
+  text-align: left;
+}
+#next-steps > div {
+  flex: 1 1 0;
+  padding: 32px;
+}
+#next-steps .icon {
+  margin-bottom: 16px;
+  width: 22px;
+  height: 22px;
+}
+
+#docs {
+  border-right: 1px solid var(--border);
+}
+
+#next-steps ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  margin: 32px 0 0;
+}
+#next-steps ul .logo {
+  height: 18px;
+}
+#next-steps ul a {
+  color: var(--text-h);
+  font-size: 16px;
+  border-radius: 6px;
+  background: var(--social-bg);
+  display: flex;
+  padding: 6px 12px;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: box-shadow 0.3s;
+}
+#next-steps ul a:hover {
+  box-shadow: var(--shadow);
+}
+#next-steps ul a .button-icon {
+  height: 18px;
+  width: 18px;
+}
+
+#spacer {
+  height: 88px;
+  border-top: 1px solid var(--border);
+}
+
+.ticks {
+  position: relative;
+  width: 100%;
+}
+.ticks::before,
+.ticks::after {
+  content: '';
+  position: absolute;
+  top: -4.5px;
+  border: 5px solid transparent;
+}
+.ticks::before {
+  left: 0;
+  border-left-color: var(--border);
+}
+.ticks::after {
+  right: 0;
+  border-right-color: var(--border);
+}
