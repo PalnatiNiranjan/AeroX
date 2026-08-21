@@ -16,6 +16,9 @@ impl BlockchainService {
             hash_registry: Arc::new(Mutex::new(HashMap::new())),
         }
     }
+}
+
+impl BlockchainService {
 
     pub fn compute_record_hash(
         &self,
