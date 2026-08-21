@@ -47,6 +47,12 @@ export const SolutionFeature: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.7, ease: EASE }}
+          // bg-clay intentionally unchanged — this is the deliberate warm
+          // chapter-break section called out in the design brief (kept,
+          // muted, not turned into the site's verification accent). See
+          // --color-verify in the global stylesheet for the separate
+          // cyan token now used for actual verification/status accents
+          // elsewhere on the page.
           className="grid grid-cols-1 items-center gap-10 bg-clay px-8 py-14 md:grid-cols-2 md:px-16 md:py-20"
         >
           <div>
@@ -57,7 +63,12 @@ export const SolutionFeature: React.FC = () => {
               Digital component identity.
             </h2>
           </div>
-          <p className="font-body text-lg leading-relaxed text-white/85">
+          {/* body-lead: previously text-lg/leading-relaxed here (18px),
+              while the equivalent intro paragraph in ComponentPassport
+              and CompanyAccessSection used text-[1.05rem] (16.8px) — same
+              typographic tier, two different sizes. Now all three share
+              one fluid definition. */}
+          <p className="body-lead text-white/85">
             AERO-SENSE connects an aviation component with a secure digital identity and
             trusted lifecycle information, creating a stronger foundation for authentication
             and traceability.

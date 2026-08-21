@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Layout } from './components/Layout';
+import { AuthShell } from './components/auth/AuthShell';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -70,7 +71,10 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<RootRoute />} />
-          <Route path="/login" element={<LoginPage />} />
+
+          <Route element={<AuthShell />}>
+            <Route path="/login" element={<LoginPage />} />
+          </Route>
 
           <Route
             element={

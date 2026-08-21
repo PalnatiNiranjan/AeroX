@@ -42,7 +42,7 @@ export const SecuritySection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-2xl font-display text-[2.75rem] font-semibold leading-[1.05] tracking-tight sm:text-[3.5rem]"
+          className="max-w-2xl heading-section"
         >
           Security behind every identity.
         </motion.h2>

@@ -18,12 +18,12 @@ export const CompanyAccessSection: React.FC = () => {
     <section className="bg-white px-6 py-28 md:px-10">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-16 md:grid-cols-2">
         <div>
-          <h2 className="font-display text-[2.75rem] font-semibold leading-[1.05] tracking-tight text-ink sm:text-[3.5rem]">
+          <h2 className="heading-section text-ink">
             One platform.
             <br />
             One trusted component record.
           </h2>
-          <p className="mt-6 max-w-md font-body text-[1.05rem] leading-relaxed text-ash">
+          <p className="mt-6 max-w-md body-lead text-ash">
             AERO-SENSE connects manufacturers, maintenance teams, operators, and authorized
             users around a single digital identity for every aviation component.
           </p>

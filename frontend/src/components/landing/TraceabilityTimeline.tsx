@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion, useSpring } from 'framer-motion';
-import { useRef } from 'react';
 
 // Order matches spec: Manufactured -> Registered -> Installed -> Inspected
 // -> Maintained -> Verified. (Installed and Inspected were previously
@@ -16,7 +15,7 @@ const STAGES = [
 
 // Supplied airplane SVG, inlined as-is: same viewBox, same path data,
 // fill swapped from the source's hardcoded #000000 to currentColor so it
-// inherits color from its parent (text-clay below). The source's literal
+// inherits color from its parent (text-verify below). The source's literal
 // width="800px" height="800px" attributes are dropped — kept as attributes
 // they'd force an 800px icon regardless of any className, which can't
 // coexist with "small/medium airplane icon". Sizing now comes entirely
@@ -94,7 +93,14 @@ export const TraceabilityTimeline: React.FC = () => {
   // instead sits statically at whichever stage is currently active,
   // jumping between fixed stage positions only when activeIndex itself
   // changes (e.g. via keyboard focus) rather than animating continuously.
-  const reducedMotionTop = `${(activeIndex / (STAGES.length - 1)) * 100}%`;
+  // Uses (activeIndex + 0.5) / STAGES.length, not activeIndex / (STAGES.length - 1):
+  // rows are equal height, so row i's dot sits at the MIDPOINT of that
+  // row's slice of the container — (i + 0.5)/N of the way down — not at
+  // i/(N-1). The endpoint-normalized version places the plane flush with
+  // the container's top/bottom edge on the first/last stage instead of
+  // at those rows' actual dot centers (off by ~8% of the container's
+  // height at both ends for 6 stages).
+  const reducedMotionTop = `${((activeIndex + 0.5) / STAGES.length) * 100}%`;
 
   return (
     <section id="traceability" className="bg-slate px-6 py-28 text-white md:px-10">
@@ -104,7 +110,7 @@ export const TraceabilityTimeline: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-2xl font-display text-[2.75rem] font-semibold leading-[1.05] tracking-tight sm:text-[3.5rem]"
+          className="max-w-2xl heading-section"
         >
           From component to complete lifecycle.
         </motion.h2>
@@ -112,7 +118,9 @@ export const TraceabilityTimeline: React.FC = () => {
         <div ref={listRef} className="relative mt-20 flex flex-col">
           {/* Connecting line — sits behind the row of dots. Track is a
               faint static line spanning the full list; fill draws over it
-              from 0 to 100% height as scrollYProgress advances.
+              from 0 to 100% height as scrollYProgress advances. Fill uses
+              --color-verify (progress/status indicator), not clay — see
+              ComponentPassport for the same reasoning.
               Dot center = index column width (w-6 = 24px) + the row's
               existing gap-6 (24px) + half the dot's own width (4px) =
               52px from the row's left edge — fixed and deterministic
@@ -123,7 +131,7 @@ export const TraceabilityTimeline: React.FC = () => {
             aria-hidden="true"
           />
           <motion.div
-            className="pointer-events-none absolute left-[52px] top-0 w-px -translate-x-1/2 origin-top bg-clay"
+            className="pointer-events-none absolute left-[52px] top-0 w-px -translate-x-1/2 origin-top bg-verify"
             style={{ height: lineHeight }}
             aria-hidden="true"
           />
@@ -139,10 +147,11 @@ export const TraceabilityTimeline: React.FC = () => {
               vs. the text at 2xl-3xl) so it stays a subtle marker, not a
               focal point. z-20 keeps it above the dots/line/text so it's
               never partially hidden behind them at the moments it passes
-              one. */}
+              one. Color uses --color-verify (progress indicator), not
+              clay. */}
           <motion.div
             aria-hidden="true"
-            className="pointer-events-none absolute left-[52px] z-20 -translate-x-1/2 -translate-y-1/2 text-clay"
+            className="pointer-events-none absolute left-[52px] z-20 -translate-x-1/2 -translate-y-1/2 text-verify"
             style={{
               top: prefersReducedMotion ? reducedMotionTop : planeTop,
               opacity: prefersReducedMotion ? 1 : planeOpacity,
@@ -187,9 +196,9 @@ export const TraceabilityTimeline: React.FC = () => {
                 <span
                   className={`relative z-10 h-2 w-2 shrink-0 rounded-full border transition-colors duration-300 ${
                     isActive
-                      ? 'border-clay bg-clay'
+                      ? 'border-verify bg-verify'
                       : isCompleted
-                        ? 'border-clay/50 bg-clay/50'
+                        ? 'border-verify/50 bg-verify/50'
                         : 'border-white/30 bg-slate'
                   }`}
                 />

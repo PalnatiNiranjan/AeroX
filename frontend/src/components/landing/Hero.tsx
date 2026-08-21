@@ -5,14 +5,12 @@ import { frameSrc, useFrameCache, type FrameSequenceConfig } from '../../lib/use
 // Sequence 1: Aircraft -> Engine (drives 0-50% of hero scroll progress)
 const AIRCRAFT: FrameSequenceConfig = { path: '/cinematic/aircraft', count: 120 };
 // Sequence 2: Engine -> NFC reveal -> final NFC close-up (drives 50-100%).
-// engine2/001-120 is the sole source for both the engine visual and its
-// own NFC reveal, ending on frame 120 as the final NFC state the
-// NFC_HOLD_ZONE logic below freezes on before ✓ Verified lands. Frames
-// 090-120 in this folder have already been pixel-edited (the wiring/pipe
-// cluster on the right replaced with cloned background) — no runtime
-// crop or zoom is needed to hide it. Old /cinematic/nfc/ frames are left
-// on disk, unreferenced, not deleted.
-const ENGINE: FrameSequenceConfig = { path: '/cinematic/engine2', count: 120 };
+// engine3/001-225 is the sole source for both the engine visual and its
+// own NFC reveal, ending on frame 225 as the final NFC state the
+// NFC_HOLD_ZONE logic below freezes on before ✓ Verified lands. Replaces
+// the old engine2 (120-frame) sequence. Old /cinematic/engine2/ and
+// /cinematic/nfc/ frames are left on disk, unreferenced, not deleted.
+const ENGINE: FrameSequenceConfig = { path: '/cinematic/engine3', count: 225 };
 
 // Frames kept warm around the current position, per sequence.
 const PRELOAD_RADIUS = 8;
@@ -28,6 +26,7 @@ const NFC_HOLD_ZONE = 0.08;
 // decorative, does not gate or replace anything else in the frame.
 const STAGE_LABELS = ['01/AIRCRAFT', '02/ENGINE', '03/NFC', '04/VERIFIED'] as const;
 
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 export const Hero: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
@@ -248,12 +247,14 @@ export const Hero: React.FC = () => {
             style={{ opacity: labelOpacity, y: labelY, position: 'absolute', left: '1.5rem', bottom: '2.5rem' }}
             className="font-body uppercase text-white/90 md:left-12"
           >
-            <span style={{ fontSize: '13px', letterSpacing: '2.6px' }}>Physical Identity</span>
+            <span style={{ fontSize: '13px', letterSpacing: '2.6px', textShadow: '0 2px 12px rgba(0,13,16,0.5)' }}>
+              Physical Identity
+            </span>
           </motion.p>
 
           <motion.div
             style={{ opacity: verifiedOpacity, y: verifiedY, scale: verifiedScale }}
-            className="absolute inset-x-0 bottom-20 flex justify-center md:bottom-24"
+            className="absolute inset-x-0 bottom-10 flex justify-center md:bottom-14"
           >
             <motion.span
               aria-hidden="true"
@@ -284,7 +285,12 @@ export const Hero: React.FC = () => {
           {STAGE_LABELS.map((label, i) => (
             <motion.span
               key={label}
-              style={{ opacity: stageOpacities[i], fontSize: '11px', letterSpacing: '2px' }}
+              style={{
+                opacity: stageOpacities[i],
+                fontSize: '11px',
+                letterSpacing: '2px',
+                textShadow: '0 1px 8px rgba(0,13,16,0.6)',
+              }}
               className="font-body uppercase text-white"
             >
               {label}
@@ -299,7 +305,7 @@ export const Hero: React.FC = () => {
         >
           <span
             className="font-body uppercase text-white/90"
-            style={{ fontSize: '12px', letterSpacing: '2px' }}
+            style={{ fontSize: '12px', letterSpacing: '2px', textShadow: '0 1px 8px rgba(0,13,16,0.6)' }}
           >
             Scroll to Explore ↓
           </span>

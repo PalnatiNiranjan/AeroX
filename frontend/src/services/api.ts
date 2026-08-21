@@ -62,6 +62,28 @@ export const authApi = {
     });
     return res.data;
   },
+  // ------------------------------------------------------------------
+  // UNCONFIRMED — added only so RegisterPage.tsx has something to call
+  // and the project compiles/demos end-to-end. There is no public
+  // self-service company registration endpoint in this file as of the
+  // last inspection (companiesApi.create/createAdmin below are commented
+  // "Super Admin only"). The URL, payload shape, and response shape here
+  // are a guess mirroring login()'s pattern — NOT confirmed against a
+  // real backend route. Per the UX flow in the design brief (Sign Up ->
+  // "Company identity created" -> Sign In, no auto-login), this returns
+  // a simple success confirmation rather than a token, so RegisterPage
+  // redirects to /login afterward instead of logging the user in
+  // directly. Replace the URL/payload/response types here once the real
+  // endpoint is confirmed — do not treat this as verified integration.
+  // ------------------------------------------------------------------
+  register: async (companyName: string, email: string, password: string) => {
+    const res = await api.post<{ success: boolean; message?: string }>('/auth/register', {
+      company_name: companyName,
+      email,
+      password,
+    });
+    return res.data;
+  },
 };
 
 // Super Admin only: onboard companies and provision their admins.

@@ -39,7 +39,7 @@ export const ProblemSection: React.FC = () => {
           viewport={{ once: true, margin: '-100px' }}
           variants={fadeUp}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] as const }}
-          className="max-w-3xl font-display text-[2.75rem] font-semibold leading-[1.05] tracking-tight text-ink sm:text-[3.5rem]"
+          className="max-w-3xl heading-section text-ink"
         >
           Traditional identification isn't enough.
         </motion.h2>
@@ -93,3 +93,5 @@ export const ProblemSection: React.FC = () => {
     </section>
   );
 };
+
+export default ProblemSection;

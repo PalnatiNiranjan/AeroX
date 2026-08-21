@@ -64,12 +64,12 @@ export const ComponentPassport: React.FC = () => {
     <section id="component-passport" className="bg-white px-6 py-28 md:px-10">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-16 md:grid-cols-2">
         <div>
-          <h2 className="font-display text-[2.75rem] font-semibold leading-[1.05] tracking-tight text-ink sm:text-[3.5rem]">
+          <h2 className="heading-section text-ink">
             Every component
             <br />
             has a story.
           </h2>
-          <p className="mt-6 max-w-md font-body text-[1.05rem] leading-relaxed text-ash">
+          <p className="mt-6 max-w-md body-lead text-ash">
             A digital component passport brings a part's identity, verification status, and
             lifecycle together in one trusted record — a concept view of how AERO-SENSE
             presents a component, not a live data feed.
@@ -131,7 +131,10 @@ export const ComponentPassport: React.FC = () => {
             <div className="mt-1 font-mono text-sm text-white/80">NFC-4F9B-2C10</div>
           </motion.div>
 
-          {/* 5. LIFECYCLE */}
+          {/* 5. LIFECYCLE — dot marker uses --color-verify (not clay):
+              this is a status/progress indicator, the exact role the
+              design brief reserves for the cyan accent, distinct from
+              clay's job as the SolutionFeature section background. */}
           <motion.div variants={fieldReveal} className="mt-8 border-t border-white/10 pt-6">
             <div className="font-body text-[11px] uppercase tracking-[0.15em] text-white/50">
               Lifecycle
@@ -139,7 +142,7 @@ export const ComponentPassport: React.FC = () => {
             <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
               {LIFECYCLE.map((stage) => (
                 <div key={stage} className="flex items-center gap-2 font-body text-sm text-white/75">
-                  <span className="h-1.5 w-1.5 rounded-full bg-clay" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-verify" />
                   {stage}
                 </div>
               ))}
@@ -147,14 +150,14 @@ export const ComponentPassport: React.FC = () => {
           </motion.div>
 
           {/* 6. VERIFICATION STATUS — last of the six reveal fields, per
-              spec. Static "Verified" badge (unchanged from before);
-              the interactive simulate button lives in its own block
-              below, kept exactly as it was. */}
+              spec. Static "Verified" badge (unchanged behavior); now uses
+              the cyan verify accent instead of clay, same reasoning as
+              the lifecycle dot above. */}
           <motion.div variants={fieldReveal} className="mt-8 border-t border-white/10 pt-6">
             <div className="font-body text-[11px] uppercase tracking-[0.15em] text-white/50">
               Verification Status
             </div>
-            <div className="mt-1 flex items-center gap-1.5 text-sm text-clay">
+            <div className="mt-1 flex items-center gap-1.5 text-sm text-verify">
               <CheckCircle2 className="h-4 w-4" />
               Verified
             </div>
@@ -167,7 +170,7 @@ export const ComponentPassport: React.FC = () => {
             variants={fieldReveal}
             className="mt-6 flex items-center gap-2 font-body text-[11px] uppercase tracking-[0.2em] text-white/40"
           >
-            <CheckCircle2 className="h-3.5 w-3.5 text-clay" />
+            <CheckCircle2 className="h-3.5 w-3.5 text-verify" />
             Digital Identity — Complete
           </motion.div>
 
@@ -191,7 +194,7 @@ export const ComponentPassport: React.FC = () => {
                 {verifyState === 'verifying' && 'Verifying…'}
                 {verifyState === 'verified' && (
                   <>
-                    <CheckCircle2 className="h-4 w-4 text-clay" />
+                    <CheckCircle2 className="h-4 w-4 text-verify" />
                     Verified
                   </>
                 )}
