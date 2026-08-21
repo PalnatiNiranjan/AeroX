@@ -11,10 +11,14 @@ export interface FrameSequenceConfig {
   prefix?: string;      // filename prefix, default 'ezgif-frame-'
   padLength?: number;    // zero-pad width, default 3
   extension?: string;     // default 'jpg'
+  lastFrameOverride?: string; // Optional exact filename for the final frame
 }
 
 export function frameSrc(cfg: FrameSequenceConfig, index: number): string {
   const clamped = Math.min(Math.max(index, 0), cfg.count - 1);
+  if (clamped === cfg.count - 1 && cfg.lastFrameOverride) {
+    return `${cfg.path}/${cfg.lastFrameOverride}`;
+  }
   const padded = String(clamped + 1).padStart(cfg.padLength ?? 3, '0');
   const prefix = cfg.prefix ?? 'ezgif-frame-';
   const ext = cfg.extension ?? 'jpg';

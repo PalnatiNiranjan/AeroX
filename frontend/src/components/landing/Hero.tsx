@@ -10,7 +10,7 @@ const AIRCRAFT: FrameSequenceConfig = { path: '/cinematic/aircraft', count: 120 
 // NFC_HOLD_ZONE logic below freezes on before ✓ Verified lands. Replaces
 // the old engine2 (120-frame) sequence. Old /cinematic/engine2/ and
 // /cinematic/nfc/ frames are left on disk, unreferenced, not deleted.
-const ENGINE: FrameSequenceConfig = { path: '/cinematic/engine3', count: 225 };
+const ENGINE: FrameSequenceConfig = { path: '/cinematic/engine3', count: 225, lastFrameOverride: 'last2.jpg' };
 
 // Frames kept warm around the current position, per sequence.
 const PRELOAD_RADIUS = 8;
@@ -26,7 +26,6 @@ const NFC_HOLD_ZONE = 0.08;
 // decorative, does not gate or replace anything else in the frame.
 const STAGE_LABELS = ['01/AIRCRAFT', '02/ENGINE', '03/NFC', '04/VERIFIED'] as const;
 
-const EASE = [0.16, 1, 0.3, 1] as const;
 
 export const Hero: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
